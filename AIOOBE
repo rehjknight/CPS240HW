@@ -1,0 +1,55 @@
+import java.util.InputMismatchException;
+import java.util.Scanner;
+
+/*@Author Derek Nightingale
+ * Fall 2015, CPS 240
+ * Homework 2
+ * 
+ * Project Started 13Sept2015
+ * Last Edited 15Sept2015
+ * 
+ * This homework is meant to practice coding try/catch blocks. The program prompts the user to
+ * enter the index of an array created from random numbers and then returns the value in that index. 
+ * There is a try/catch block to handle InputMismatchException as well as ArrayIndexOutOfBoundsException.
+ */
+
+public class AIOOBE {
+	
+	public static void main(String[] args) {
+		int index = -1;
+		int[] myArray;
+		boolean success = false;
+		Scanner scan = new Scanner(System.in);
+		
+		while(!success) {
+			try{ //catches if user does not enter an int, loop continues until they do
+				System.out.println("Please enter an index (integer) for the array: ");
+				index = scan.nextInt();
+				success = true;
+			}
+			catch(InputMismatchException ime) {
+				scan.next();
+				System.out.println("Invalid Entry!");
+			}
+		}
+		
+		try { //catches if user entered index is out of bounds for array
+			myArray = array(index);
+			System.out.println("The element is: "+ myArray[index]);
+		}
+		catch(ArrayIndexOutOfBoundsException aioobe){
+			System.out.print(aioobe);
+		}
+		scan.close();
+		
+	}
+	
+	//creates array with 100 elements and fills it with random ints from [0, 10000)
+	public static int[] array(int index) {
+		int[] myArray = new int[100];
+		for(int i = 0;i < myArray.length ;i++) {
+			myArray[i] = (int)(Math.random()*(10000 + 1));
+		}
+		return myArray;
+	}
+}
