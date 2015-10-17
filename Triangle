@@ -1,0 +1,77 @@
+import java.util.InputMismatchException;
+import java.util.Scanner;
+
+/*@Author Derek Nightingale
+ * Fall 2015, CPS 240
+ * Homework 2
+ * 
+ * Project Started 13Sept2015
+ * Last Edited 15Sept2015
+ * 
+ * This homework is meant to practice coding try/catch blocks. This program will prompt the user
+ * to enter the sides of a triangle. It will catch errors if the user does not enter ints and/or
+ * if the sum of two of the sides are less than the third. 
+ */
+
+public class Triangle {
+
+	public int side1;
+	public int side2;
+	public int side3;
+	public int perimeter;
+	
+	//constructor for triangle object
+	public Triangle (int side1, int side2, int side3) throws InvalidTriangleException {
+		try{ //throws InvalidTriangleException
+			if((side1+side2) <= side3 || (side1+side3) <= side2 || (side2+side3) <= side1) {
+				throw new InvalidTriangleException("Triangle Mismatch");
+			}
+			else{
+				this.side1 = side1;
+				this.side2 = side2;
+				this.side3 = side3;
+				this.perimeter = getPerimeter(side1, side2, side3);
+			}
+		}
+		catch (InvalidTriangleException ite){
+			System.out.println(ite);
+			System.exit(0);
+		}
+	}
+	
+	public int getPerimeter(int side1, int side2, int side3){ //getter for perimeter for triangle object
+		perimeter = side1+side2+side3;
+		return perimeter;
+	}
+	
+	public String toString(){
+		return ("The perimeter of the Triangle("+side1+","+side2+","+side3+") is "+perimeter);
+	}
+
+
+public static void main(String[] args) throws InvalidTriangleException{
+	int side1 = -1;
+	int side2 = -1;
+	int side3 = -1;
+	boolean success = false;
+	Scanner scan = new Scanner(System.in);
+	
+	while(!success){
+		try{ //checks  if user entered 3 doubles
+			System.out.print("Enter 3 side lengths for the triangle: ");
+			side1 = scan.nextInt();
+			side2 = scan.nextInt();
+			side3 = scan.nextInt();
+			success = true;
+		}
+		catch(InputMismatchException ime) {
+			System.out.println("INVALID ENTRY!");
+			scan.next();
+		}
+	}
+	
+	Triangle tri = new Triangle(side1, side2, side3);
+	System.out.print(tri.toString());
+	scan.close();
+}
+}
