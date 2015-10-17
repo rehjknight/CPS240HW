@@ -1,0 +1,99 @@
+import java.util.ArrayList;
+import java.util.InputMismatchException;
+import java.util.List;
+import java.util.Scanner;
+import java.util.Set;
+import java.util.TreeSet;
+
+/*@Author Derek Nightingale
+ * File Name: Test.java
+ * CPS 240 HW #1
+ * Created 05Sept2015
+ * Last Updated 30Sept2015
+ * Modified for HW1b
+ * 
+ * This program will create a user defined amount of integers and 
+ * time how long it takes then put them into a list then print out 
+ * the list. Then a timer will time how long it takes for a selection
+ * sort so put the list in ascending order. Then print out the sort list 
+ */
+
+public class Test {
+	
+	public static void main(String[] args) {
+		int num = 0;
+		int listSize = 0;
+		int setSize = 0;
+		Scanner input = new Scanner(System.in);
+		StopWatch watch = new StopWatch();
+		Utility sort = new Utility();
+		Set<Integer> treeSet = new TreeSet<Integer>();
+		
+		//try-catch block and loop to get correct user input
+		while(num <= 0) {
+			try {
+				System.out.println ("How many random integers would you like to generate (greater than 0)?");
+				num = input.nextInt();
+			
+				if(num < 1) {
+					System.out.println("Input Error, please enter a value greater than 0");
+					input.nextLine();
+				}
+			}
+			catch(InputMismatchException ime) {
+				System.out.println("Input Mismatch, please enter an integer greater than 0");
+				input.nextLine();
+			}
+		}
+		//end try-catch block and loop
+		
+		watch.start(); //start stopwatch for list generation
+		List<Integer> randList = genList(num); //generates arraylist with n elements
+		listSize = randList.size();
+		watch.end(); //stops stopwatch for list generation
+		
+		//calls getTimeElapsed to determine how long it took
+		System.out.println("Generated "+num+" random numbers: "+ watch.getTimeElapsed()+" milliseconds"); 
+	
+		watch.start(); //starts watch for selection sort
+		sort.selectionSort(randList); //passes unsorted arraylist to be sorted
+		watch.end();//stops startwatch
+		
+		//calls getTimeElapsed to determine how long it took
+		System.out.println("\nSorted List: "+ watch.getTimeElapsed()+" milliseconds"); 
+		
+		if (num < 101) { //only prints the sorted list if there are 100 or less integers
+			System.out.println("List before removing duplicates: ");
+			for(int i: randList)
+				System.out.print(i+" ");
+		}
+		
+		
+		watch.start();
+		treeSet = sort.removeDuplicates(randList);
+		setSize = treeSet.size();
+		watch.end();
+		System.out.println("\nRemoved Duplicates: "+ watch.getTimeElapsed()+" milliseconds");
+		
+		if (num < 101) { //only prints the sorted, non-duplicate list if there are 100 or less integers
+			System.out.println("List after removing duplicates: ");
+			for(int i: treeSet)
+				System.out.print(i+" ");
+		}
+		
+		System.out.println("\nList Size before/after removal: " + listSize +"  / "+ setSize);
+		input.close();
+	}
+	
+	//method to create random integers for arraylist
+	public static List<Integer> genList(int num) {
+		
+		List<Integer> randList = new ArrayList<Integer>();
+		int maxInt = 2*num+1; //sets max possible value in list to 2*n (user defined value)
+		
+		for(int i = 0; i < (2*num); i++) {
+			randList.add((int) ((maxInt-num) * Math.random())+num); //adds random n ints to arraylist
+		}                                                          //in range of [n, 2n]
+		return randList;
+	}
+}
