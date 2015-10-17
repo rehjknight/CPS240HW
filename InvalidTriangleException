@@ -1,0 +1,22 @@
+/*@Author Derek Nightingale
+ * Fall 2015, CPS 240
+ * Homework 2
+ * 
+ * Project Started 13Sept2015
+ * Last Edited 15Sept2015
+ * 
+ * This homework is meant to practice coding try/catch blocks. This is a user defined exception class
+ * used in the class Triangle
+ */
+
+public class InvalidTriangleException extends Exception {
+	
+	InvalidTriangleException(String s){
+		super(s);
+		System.out.println("The sum of any two sides is less than or equal to the other side");
+	}
+	
+	public String toString(){
+		return super.toString();
+	}
+}
