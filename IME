@@ -1,0 +1,43 @@
+/*@Author Derek Nightingale
+ * Fall 2015, CPS 240
+ * Homework 2
+ * 
+ * Project Started 13Sept2015
+ * Last Edited 15Sept2015
+ * 
+ * This homework is meant to practice coding try/catch blocks. The program prompts the user to
+ * enter two ints to add together. This prompt and following operations will catch an
+ * InputMismatchException and handle it
+ */
+
+import java.util.InputMismatchException;
+import java.util.Scanner;
+
+public class IME {
+
+	public static void main(String[] args) {
+		
+		int int1 = 0;
+		int int2 = 0;
+		int total = -1;
+		boolean success = false;
+		Scanner scan = new Scanner(System.in);
+		
+		System.out.println("Please enter two integers, seperated by a space, to add together: ");
+		while(!success){ //loop will continue until the user enters appropriate data
+			try{ ///catches if user enters non-int
+				int1 = scan.nextInt();
+				int2 = scan.nextInt();
+				total = int1 + int2;
+				System.out.println("Sum = "+ total);
+				success = true;
+			}
+			catch(InputMismatchException ime){ //prints out error stack and tells user what went wrong
+				ime.printStackTrace();
+				System.out.println("Incorrect Input, please re-enter two integers, seperated by a space");
+				scan.next();
+			}
+		}
+		scan.close();
+	}
+}
